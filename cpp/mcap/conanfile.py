@@ -1,4 +1,4 @@
-from conans import ConanFile, tools
+from conan import ConanFile, tools
 
 
 class McapConan(ConanFile):
@@ -12,10 +12,10 @@ class McapConan(ConanFile):
 
     settings = ("os", "compiler", "build_type", "arch")
     requires = ("lz4/1.9.4", "zstd/1.5.2")
-    generators = "cmake"
+    generators = "CMakeDeps", "CMakeToolchain"  # Generates conan_toolchain.cmake
 
     def validate(self):
-        tools.check_min_cppstd(self, "17")
+        tools.build.check_min_cppstd(self, "17")
 
     def configure(self):
         pass
@@ -25,4 +25,4 @@ class McapConan(ConanFile):
         self.copy("include/*")
 
     def package_id(self):
-        self.info.header_only()
+        self.info.clear()
